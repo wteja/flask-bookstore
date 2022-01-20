@@ -14,8 +14,8 @@ export class Repository {
         return getAccessTokenSilently();
     }
     async getAllBooks() {
-        const result = await axios.get(`${this.baseUrl}/books`);
-        return result?.data as Book[];
+        const { data } = await axios.get(`${this.baseUrl}/books`);
+        return data.data as Book[];
     }
     async getBookById(id: string) {
         const result = await axios.get(`${this.baseUrl}/books/${id}`);

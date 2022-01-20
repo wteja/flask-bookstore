@@ -1,8 +1,21 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth0 } from '@auth0/auth0-react';
 
 function Header() {
-    const { isAuthenticated, isLoading, loginWithPopup, logout } = useAuth0();
+    const { isAuthenticated, isLoading, loginWithPopup, logout, getAccessTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        if (!isAuthenticated)
+            return;
+
+        const setToken = async () => {
+            const token = await getAccessTokenSilently();
+            localStorage.setItem('access_token', token);
+        }
+        setToken();
+    }, [isAuthenticated]);
+
     return (
         <div className="bg-blue-600 text-white p-5 flex items-center justify-between">
             <h1 className="font-bold text-2xl">Book Store</h1>

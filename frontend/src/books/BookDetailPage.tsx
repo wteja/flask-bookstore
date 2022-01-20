@@ -16,7 +16,9 @@ function BookDetailPage() {
     }
 
     useEffect(() => {
-        getBookDetail(id);
+        if (id) {
+            getBookDetail(id);
+        }
     }, [id]);
 
     return (

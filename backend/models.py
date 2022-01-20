@@ -10,6 +10,7 @@ database_uri = "postgresql://{}/{}".format(database_host, database_name)
 db = SQLAlchemy()
 migrate = None
 
+
 def setup_db(app):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -17,10 +18,14 @@ def setup_db(app):
     db.init_app(app)
     return db
 
-orderBook = db.Table('order_books', 
-    Column('order_id', Integer, ForeignKey('order.id'), primary_key=True),
-    Column('book_id', Integer, ForeignKey('book.id'), primary_key=True)
-)
+
+orderBook = db.Table('order_books',
+                     Column('order_id', Integer, ForeignKey(
+                         'order.id'), primary_key=True),
+                     Column('book_id', Integer, ForeignKey(
+                         'book.id'), primary_key=True)
+                     )
+
 
 class Book(db.Model):
     __tablename__ = 'book'
@@ -30,8 +35,15 @@ class Book(db.Model):
     image = Column(String)
     description = Column(String)
 
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
 class Order(db.Model):
     __tablename__ = 'order'
     id = Column(db.Integer, primary_key=True)
     user_id = Column(String, nullable=False)
-    books = db.relationship('book', secondary=orderBook, backref="order")
+    books = db.relationship('Book', secondary=orderBook, backref="Order")
+
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}

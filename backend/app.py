@@ -3,9 +3,166 @@ from sqlalchemy import exc
 from flask_migrate import Migrate
 import json
 from flask_cors import CORS
-from models import setup_db
+from models import setup_db, Book, Order
+from auth import AuthError, requires_auth
 
 app = Flask(__name__)
 db = setup_db(app)
 migrate = Migrate(app, db)
 CORS(app)
+
+
+@app.route('/books', methods=['GET'])
+def get_books():
+    books = Book.query.all()
+
+    return jsonify({
+        "success": True,
+        "data": [book.as_dict() for book in books]
+    })
+
+
+@app.route('/books/<int:id>', methods=['GET'])
+def get_book_detail(id):
+    book = Book.query.get(id)
+
+    if not book:
+        abort(404)
+
+    return jsonify({
+        "success": True,
+        "data": book.as_dict()
+    })
+
+
+@app.route('/books', methods=['POST'])
+@requires_auth('post:books')
+def create_book(payload):
+    body = request.json
+    book = Book()
+    book.title = body['title']
+    book.isbn = body['isbn']
+    book.image = body['image']
+    book.description = body['description']
+
+    try:
+        db.session.add(book)
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "data": book.as_dict()
+        })
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+
+@app.route('/books/<int:id>', methods=['PATCH'])
+@requires_auth('patch:books')
+def update_book(payload, id):
+    book = Book.query.get(id)
+
+    if not book:
+        abort(404)
+
+    body = request.json
+
+    book.title = body['title']
+    book.isbn = body['isbn']
+    book.image = body['image']
+    book.description = body['description']
+
+    try:
+        db.session.commit()
+        return jsonify({
+            "success": True,
+            "data": book.as_dict()
+        })
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+
+@app.route('/books/<int:id>', methods=['DELETE'])
+@requires_auth('delete:books')
+def delete_book(payload, id):
+    book = Book.query.get(id)
+
+    if not book:
+        abort(404)
+
+    try:
+        db.session.delete(book)
+        db.session.commit()
+        return jsonify({
+            "success": True
+        })
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+
+'''
+Error Handlers
+'''
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
+
+
+@app.errorhandler(AuthError)
+def auth_error(error):
+    return jsonify({
+        "success": False,
+        "error": error.status_code,
+        "message": error.error['description']
+    }), error.status_code
+
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": 400,
+        "message": 'Bad Request'
+    }), 400
+
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": 'Unathorized'
+    }), 401
+
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return jsonify({
+        "success": False,
+        "error": 405,
+        "message": 'Method Not Allowed'
+    }), 405
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({
+        "success": False,
+        "error": 500,
+        "message": 'Internal Server Error'
+    }), 500

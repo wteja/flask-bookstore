@@ -6,12 +6,14 @@ interface IAccessControl {
 }
 
 function AccessControl({ children }: IAccessControl) {
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
     const [isReady, setIsReady] = useState(false);
 
     async function checkToken() {
-        const token = await getAccessTokenSilently();
-        localStorage.setItem('access_token', token);
+        if (isAuthenticated) {
+            const token = await getAccessTokenSilently();
+            localStorage.setItem('access_token', token);
+        }
         setIsReady(true);
     }
 
@@ -19,7 +21,7 @@ function AccessControl({ children }: IAccessControl) {
         checkToken();
     });
 
-    if(!isReady)
+    if (!isReady)
         return null;
 
     return <>{children}</>;

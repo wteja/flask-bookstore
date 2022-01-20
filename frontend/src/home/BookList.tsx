@@ -9,6 +9,7 @@ function BookList() {
 
     async function loadBooks() {
         const books = await repo.getAllBooks();
+        console.log(books);
         if (books?.length) {
             setBooks(books);
         }
