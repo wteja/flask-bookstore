@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useAuth0 } from '@auth0/auth0-react';
 
 function Header() {
-    const { isAuthenticated, isLoading, loginWithPopup, logout, getAccessTokenSilently } = useAuth0();
+    const { isAuthenticated, isLoading, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
 
     useEffect(() => {
         if (!isAuthenticated)
@@ -18,7 +18,10 @@ function Header() {
 
     return (
         <div className="bg-blue-600 text-white p-5 flex items-center justify-between">
-            <h1 className="font-bold text-2xl">Book Store</h1>
+            <h1 className="font-bold text-2xl"> <Link href="/">
+                <a>Book Store</a>
+            </Link>
+            </h1>
             <ul className="flex-1 mx-16 text-lg flex items-center space-x-16">
                 <li>
                     <Link href="/">
@@ -51,7 +54,7 @@ function Header() {
             </ul>
             <div className="justify-self-end">
                 {!isLoading && !isAuthenticated && (
-                    <div onClick={() => loginWithPopup()} className="px-4 py-2 bg-white text-blue-500 block rounded-lg cursor-pointer">Login</div>
+                    <div onClick={() => loginWithRedirect()} className="px-4 py-2 bg-white text-blue-500 block rounded-lg cursor-pointer">Login</div>
                 )}
                 {!isLoading && isAuthenticated && (
                     <div onClick={() => logout()} className="px-4 py-2 bg-white text-blue-500 block rounded-lg cursor-pointer">Logout</div>
