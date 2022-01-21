@@ -9,8 +9,7 @@ database_host = environ.get('DATABASE_HOST', 'localhost:5432')
 database_name = environ.get('DATABASE_NAME_TEST', 'book_test')
 database_path = "postgresql://{}/{}".format(database_host, database_name)
 
-class TriviaTestCase(unittest.TestCase):
-    """This class represents the trivia test case"""
+class BookStoreTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = app
