@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export FLASK_APP=api.py
+export FLASK_DEBUG=true
+export AUTH0_AUTH0_DOMAIN=dev-x2a0z7ur.us.auth0.com
+export AUTH0_AUDIENCE=book-store
+export DATABASE_HOST=postgres@localhost:5432
+export DATABASE_NAME=book
+export DATABASE_NAME=book_test
+
+export NEXT_PUBLIC_AUTH0_DOMAIN=dev-x2a0z7ur.us.auth0.com
+export NEXT_PUBLIC_AUTH0_AUDIENCE=book-store
+export NEXT_PUBLIC_AUTH0_CLIENT_ID=j275lw7SrTrLqMkGNIglBe30K8thioBv
+export NEXT_PUBLIC_AUTH0_REDIRECT_URI=http://localhost:3000
+export NEXT_PUBLIC_BACKEND_URI=http://127.0.0.1:5000
+
+echo 'All environment variables were exported...'

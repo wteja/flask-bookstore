@@ -30,10 +30,12 @@ export FLASK_DEBUG=true
 5. Export `DATABASE_HOST` and `DATABASE_NAME` and `DATABASE_NAME_TEST`
 
 ```bash
-export DATABASE_HOST=localhost:5432
+export DATABASE_HOST=postgres@localhost:5432
 export DATABASE_NAME=book
 export DATABASE_NAME_TEST=book_test
 ```
+
+**NOTE** Notice that I put `postgres` as database username
 
 5. Run migration script
 
@@ -63,4 +65,13 @@ After setup local development like instructor above, you can run this command
 
 ```bash
 python test_app.py
+```
+
+## Environment Variables
+
+In case that you want to export initial environment variables at once please check file `init` in project root before running
+If you are ready, run it with
+
+```bash
+bash ./init
 ```
