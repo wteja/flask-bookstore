@@ -34,6 +34,20 @@ function Header() {
                         </a>
                     </Link>
                 </li>
+                <li>
+                    <Link href="/manage/books">
+                        <a>
+                            <span>Manage Books</span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/manage/orders">
+                        <a>
+                            <span>Manage Orders</span>
+                        </a>
+                    </Link>
+                </li>
             </ul>
             <div className="justify-self-end">
                 {!isLoading && !isAuthenticated && (

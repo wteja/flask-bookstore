@@ -14,7 +14,7 @@ CORS(app)
 
 @app.route('/books', methods=['GET'])
 def get_books():
-    books = Book.query.all()
+    books = Book.query.order_by(Book.id).all()
 
     return jsonify({
         "success": True,

@@ -19,7 +19,16 @@ export class Repository {
     }
     async getBookById(id: string) {
         const result = await axios.get(`${this.baseUrl}/books/${id}`);
-        return result?.data as Book;
+        return result.data.data as Book;
+    }
+    async saveBook(book: Book) {
+        if (!!book.id) {
+            const result = await axios.patch(`${this.baseUrl}/books/${book.id}`, book);
+            return result?.data as Book;
+        } else {
+            const result = await axios.post(`${this.baseUrl}/books`, book);
+            return result?.data as Book;
+        }
     }
 }
 
@@ -34,7 +43,7 @@ export function useRepository() {
         setToken(rawToken);
         axios.interceptors.request.use((config) => {
             if (config && config.headers && rawToken) {
-                config.headers.Authorization = rawToken;
+                config.headers.Authorization = `Bearer ${rawToken}`;
             }
             return config;
         })
