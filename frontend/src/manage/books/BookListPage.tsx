@@ -16,6 +16,17 @@ function BookListPage() {
         setFirstLoad(true);
     }
 
+    async function onDelete(id?: string | number) {
+        if(!id)
+            return;
+
+        const isAccepted = confirm("Do you want to delete this book?");
+        if(isAccepted) {
+            await repo.deleteBookById(id);
+            await fetchBooks();
+        }
+    }
+
     useEffect(() => {
         fetchBooks();
     }, []);
@@ -38,7 +49,7 @@ function BookListPage() {
                         </div>
                     )}
                     {!!books.length && (
-                        <BookList books={books} />
+                        <BookList books={books} onDelete={id => onDelete(id)} />
                     )}
                 </>
             )}

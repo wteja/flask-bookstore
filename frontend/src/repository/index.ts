@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  } from 'next/router';
+import { } from 'next/router';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import Book from '../models/book';
@@ -30,6 +30,9 @@ export class Repository {
             const result = await axios.post(`${this.baseUrl}/books`, book);
             return result?.data as Book;
         }
+    }
+    async deleteBookById(id: string | number) {
+        await axios.delete(`${this.baseUrl}/books/${id}`);
     }
 }
 
