@@ -138,7 +138,7 @@ def get_orders(payload):
 @app.route('/my_orders', methods=['GET'])
 @requires_auth('get:orders')
 def get_my_orders(payload):
-    orders = Order.query.filter_by(Order.user_id == payload['sub']).all()
+    orders = db.Query(Order).join(Book.title).filter_by(Order.user_id == payload['sub']).all()
 
     return jsonify({
         "success": True,

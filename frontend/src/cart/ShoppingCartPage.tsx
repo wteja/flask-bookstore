@@ -26,8 +26,8 @@ function ShoppingCartPage() {
     async function finishOrder() {
         await repo.createNewOrder(books);
         clearCart();
-        toast("Thank you for ordering books with us!")
-        router.push("/");
+        fetchBooks();
+        toast("Thank you for ordering books with us!");
     }
 
     useEffect(() => {

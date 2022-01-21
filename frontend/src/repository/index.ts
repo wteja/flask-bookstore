@@ -1,8 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { } from 'next/router';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import Book from '../models/book';
+import Order from '../models/order';
+import { AccessControlContext } from '../auth/AccessControl';
+
+axios.interceptors.request.use((config) => {
+    const token = localStorage.getItem("access_token");
+    if (config && config.headers && token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+})
 
 export class Repository {
     private readonly baseUrl: string;
@@ -44,31 +54,18 @@ export class Repository {
         });
         return result?.data as Book;
     }
+    async getAllOrders() {
+        const { data } = await axios.get(`${this.baseUrl}/orders`);
+        return data.data as Order[];
+    }
+    async deleteOrderById(id: string | number) {
+        await axios.delete(`${this.baseUrl}/order/${id}`);
+    }
 }
 
 let repo: Repository;
 
 export function useRepository() {
-    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-    const [token, setToken] = useState("");
-
-    async function fetchAndSetToken() {
-        const rawToken = await getAccessTokenSilently();
-        setToken(rawToken);
-        axios.interceptors.request.use((config) => {
-            if (config && config.headers && rawToken) {
-                config.headers.Authorization = `Bearer ${rawToken}`;
-            }
-            return config;
-        })
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchAndSetToken();
-        }
-    }, [isAuthenticated]);
-
     if (!repo) {
         repo = new Repository();
     }

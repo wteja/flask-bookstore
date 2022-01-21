@@ -58,7 +58,7 @@ function BookDetailPage() {
                             </div>
                         )}
                         <div className="mt-8">
-                            <div onClick={() => addToCart()} className="inline-block text-2xl cursor-pointer px-8 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">GET IT!</div>
+                            <div onClick={() => addToCart()} className="inline-block text-2xl cursor-pointer px-8 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">Add to cart!</div>
                         </div>
                     </div>
                 </div>
