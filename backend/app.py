@@ -167,8 +167,10 @@ def create_order(payload):
     order = Order()
     order.user_id = payload['sub']
 
-    for book in body['books']:
-        order.books.append(book)
+    for b in body['books']:
+        book = Book.query.get(b['id'])
+        if book:
+            order.books.append(book)
 
     try:
         db.session.add(order)

@@ -38,6 +38,12 @@ export class Repository {
     async deleteBookById(id: string | number) {
         await axios.delete(`${this.baseUrl}/books/${id}`);
     }
+    async createNewOrder(books: Book[]) {
+        const result = await axios.post(`${this.baseUrl}/orders`, {
+            books
+        });
+        return result?.data as Book;
+    }
 }
 
 let repo: Repository;

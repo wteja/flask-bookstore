@@ -19,6 +19,7 @@ function Header() {
                         </a>
                     </Link>
                 </li>
+                {canAccess('post:orders') && (
                 <li>
                     <Link href="/cart">
                         <a>
@@ -26,6 +27,7 @@ function Header() {
                         </a>
                     </Link>
                 </li>
+                )}
                 {canAccess('post:books') && (
                     <li>
                         <Link href="/manage/books">

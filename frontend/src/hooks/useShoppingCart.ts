@@ -3,17 +3,15 @@ import Book from "../models/book";
 import { useRepository } from "../repository";
 
 function useShoppingCart() {
-    const [books, setBooks] = useState<Book[]>([]);
     const repo = useRepository();
 
     function getBookIds() {
         return JSON.parse(localStorage.getItem('cartBookIds') || "[]") as string[];
     }
 
-    async function getBooks() {
+    function getBooks() {
         const cartBookIds = getBookIds();
-        const books = await repo.getBooksByIds(cartBookIds);
-        return books;
+        return repo.getBooksByIds(cartBookIds);
     }
 
     function addBook(book: Book) {
@@ -34,7 +32,11 @@ function useShoppingCart() {
         localStorage.setItem('cartBookIds', JSON.stringify(filtered));
     }
 
-    return { getBooks, addBook, removeBook }
+    function clearCart() {
+        localStorage.setItem('cartBookIds', '[]');
+    }
+
+    return { getBooks, addBook, removeBook, clearCart }
 }
 
 export default useShoppingCart;
