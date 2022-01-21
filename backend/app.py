@@ -60,6 +60,7 @@ def create_book(payload):
     finally:
         db.session.close()
 
+
 @app.route('/books/<int:id>', methods=['PATCH'])
 @requires_auth('patch:books')
 def update_book(payload, id):
@@ -88,6 +89,7 @@ def update_book(payload, id):
     finally:
         db.session.close()
 
+
 @app.route('/books/<int:id>', methods=['DELETE'])
 @requires_auth('delete:books')
 def delete_book(payload, id):
@@ -108,6 +110,80 @@ def delete_book(payload, id):
         abort(500)
     finally:
         db.session.close()
+
+
+@app.route('/orders', methods=['GET'])
+@requires_auth('get:orders')
+def get_orders(payload):
+    orders = Order.query.all()
+
+    return jsonify({
+        "success": True,
+        "data": [order.as_dict() for order in orders]
+    })
+
+
+@app.route('/orders/<int:id>', methods=['GET'])
+@requires_auth('get:orders')
+def get_order_detail(payload, id):
+    order = Order.query.get(id)
+
+    if not order:
+        abort(404)
+
+    return jsonify({
+        "success": True,
+        "data": order.as_dict()
+    })
+
+
+@app.route('/orders', methods=['POST'])
+@requires_auth('post:orders')
+def create_order(payload):
+    body = request.json
+    order = Order()
+    order.user_id = payload['sub']
+
+    for book in body['books']:
+        order.books.append(book)
+
+    try:
+        db.session.add(order)
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "data": order.as_dict()
+        })
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+
+
+@app.route('/order/<int:id>', methods=['DELETE'])
+@requires_auth('delete:orders')
+def delete_order(payload, id):
+    order = Order.query.get(id)
+
+    if not order:
+        abort(404)
+
+    try:
+        db.session.delete(order)
+        db.session.commit()
+        return jsonify({
+            "success": True
+        })
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+
 
 '''
 Error Handlers
