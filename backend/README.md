@@ -75,3 +75,146 @@ If you are ready, run it with
 ```bash
 bash ./init
 ```
+
+## API
+
+### Get All Books
+
+GET `/books` 
+Get a list of books
+#### Example Response
+```json
+{
+    "data": [
+        {
+            "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
+            "id": 1,
+            "image": "https://eloquentjavascript.net/img/cover.jpg",
+            "isbn": "9781593279509",
+            "title": "Eloquent JavaScript, Third Edition"
+        },
+        ...
+    ],
+    "success": true
+}
+
+```
+
+### Get book by ID
+
+GET `/books/{id}` 
+Get a book by ID
+#### Example Response
+```json
+{
+    "data": {
+            "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
+            "id": 1,
+            "image": "https://eloquentjavascript.net/img/cover.jpg",
+            "isbn": "9781593279509",
+            "title": "Eloquent JavaScript, Third Edition"
+        },
+    "success": true
+}
+
+```
+
+### Create Book
+
+POST `/books` 
+Permission `post:books`
+Create a book
+#### Example Request
+```json
+{
+
+    "isbn": "9781593279509",
+    "title": "Eloquent JavaScript, Third Edition",
+    "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
+    "image": "https://eloquentjavascript.net/img/cover.jpg"
+}
+
+```
+
+### Update Book
+
+PATCH `/books/{id}` 
+Permission `patch:books`
+Update a book
+#### Example Request
+```json
+{
+
+    "isbn": "9781593279509",
+    "title": "Eloquent JavaScript, Third Edition",
+    "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
+    "image": "https://eloquentjavascript.net/img/cover.jpg"
+}
+
+```
+
+### Delete Book
+
+DELETE `/books/{id}` 
+Permission `delete:books`
+Delete a book
+#### Example Response
+```json
+{
+    "success": true
+}
+
+```
+
+### Get All Orders
+
+GET `/orders` 
+Permission `get:orders`
+Get a list of order that customers made.
+#### Example Response
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "user_id": "auth0|0000000000000001"
+        },
+        {
+            "id": 2,
+            "user_id": "auth0|0000000000000002"
+        }
+    ],
+    "success": true
+}
+
+```
+
+POST `/orders` 
+Permission `post:orders`
+Create an order
+#### Example Request
+```json
+{
+    "books": [
+        {
+            "id": 1
+        },
+
+        {
+            "id": 2
+        }
+    ]
+}
+
+```
+
+DELETE `/orders/{id}` 
+Permission `delete:orders`
+Delete an order
+#### Example Response
+```json
+{
+    "success": true
+}
+
+```
