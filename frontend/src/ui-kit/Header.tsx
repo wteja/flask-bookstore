@@ -8,7 +8,7 @@ function Header() {
     return (
         <div className="bg-blue-600 text-white p-5 flex items-center justify-between">
             <h1 className="font-bold text-2xl"> <Link href="/">
-                <a>Book Store</a>
+                <a><span className="text-red-500">B</span><span className="text-yellow-500">O</span><span className="text-teal-500">O</span><span className="text-fuchsia-500">K</span> <span className="text-white">STORE</span></a>
             </Link>
             </h1>
             <ul className="flex-1 mx-16 text-lg flex items-center space-x-16">

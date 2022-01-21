@@ -22,7 +22,7 @@ function BookList() {
         return null;
 
     return (
-        <div className="grid grid-cols-4 gap-4 my-8">
+        <div className="lg:grid lg:grid-cols-4 gap-4 my-8">
             {books.map(it => (
                 <div key={it.id} className="p-4 border border-gray-300 bg-white">
                     <Link href={`/books/${it.id}`}>
