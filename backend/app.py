@@ -123,6 +123,17 @@ def get_orders(payload):
     })
 
 
+@app.route('/my_orders', methods=['GET'])
+@requires_auth('get:orders')
+def get_my_orders(payload):
+    orders = Order.query.filter_by(Order.user_id == payload['sub']).all()
+
+    return jsonify({
+        "success": True,
+        "data": [order.as_dict() for order in orders]
+    })
+
+
 @app.route('/orders/<int:id>', methods=['GET'])
 @requires_auth('get:orders')
 def get_order_detail(payload, id):
