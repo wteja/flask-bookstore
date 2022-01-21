@@ -12,13 +12,13 @@ Finally, John will login and check all of orders in the same website.
 
 Website already hosted. You can check:
 
-https://flask-book-store.netlify.app
+https://wteja-flask-bookstore.netlify.app
 
 That is where front-end was hosted online.
 
 For backend api, You can check:
 
-https://flask-book-store.heroku.app
+https://wteja-flask-bookstore.herokuapp.com/
 
 ## Local Development
 
