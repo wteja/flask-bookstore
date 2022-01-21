@@ -1,20 +1,21 @@
 from os import environ
 import unittest
 import json
+from flask import request
 
 from api import app
 from models import setup_db, Book, Order
 
-database_host = environ.get('DATABASE_HOST', 'localhost:5432')
-database_name = environ.get('DATABASE_NAME_TEST', 'book_test')
-database_path = "postgresql://{}/{}".format(database_host, database_name)
+DATABASE_HOST = environ.get('DATABASE_HOST', 'postgres@localhost:5432')
+DATABASE_NAME_TEST = environ.get('DATABASE_NAME_TEST', 'book_test')
+DATABASE_URI = "postgresql://{}/{}".format(DATABASE_HOST, DATABASE_NAME_TEST)
 
 class BookStoreTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = app
         self.client = self.app.test_client
-        self.db = setup_db(self.app, database_path)
+        self.db = setup_db(self.app, DATABASE_URI)
         self.db.drop_all()
         self.db.create_all()
 
