@@ -16,6 +16,7 @@ function BookFormPage() {
     const router = useRouter();
     const id = router.query.id as string;
     const [book, setBook] = useState<Book>({ ...defaultBook })
+    const [originalBook, setOriginalBook] = useState<Book>({ ...defaultBook })
     const repo = useRepository();
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -47,16 +48,20 @@ function BookFormPage() {
 
     async function getBookById(id: string) {
         const foundBook = await repo.getBookById(id);
-        console.log(foundBook);
-        if(foundBook) {
-            setBook(foundBook);
+        if (foundBook) {
+            setBook({ ...foundBook });
+            setOriginalBook({ ...foundBook })
         } else {
             setError(true)
         }
     }
 
+    function resetForm() {
+        setBook({ ...originalBook });
+    }
+
     useEffect(() => {
-        if(id) {
+        if (id) {
             getBookById(id);
         }
     }, [id])
@@ -89,7 +94,7 @@ function BookFormPage() {
                 </div>
                 <div className="mt-4 mb-2 flex items-center">
                     <input type="submit" id="submit" value="Save" className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg cursor-pointer" />
-                    <input type="reset" id="reset" value="Reset" className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded-lg cursor-pointer ml-4" />
+                    <input type="reset" id="reset" value="Reset" className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded-lg cursor-pointer ml-4" onClick={resetForm} />
                     <Link href="/manage/books">
                         <a className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded-lg cursor-pointer ml-4">
                             Back
