@@ -27,6 +27,11 @@ function ShoppingCartPage() {
             {books && books.length > 0 && (
                 <BookList books={books} onDelete={onDelete} />
             )}
+            {(!books || books.length < 1) && (
+                <div className="my-32 text-2xl text-center">
+                    Shopping Cart is empty!
+                </div>
+            )}
         </MainLayout>
     )
 }

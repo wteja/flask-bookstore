@@ -24,7 +24,9 @@ def get_books():
 @app.route('/selected-books', methods=['GET'])
 def get_selected_books():
     ids = request.args['ids'].split(',')
-    books = Book.query.filter(Book.id.in_(ids)).order_by(Book.id).all()
+    books = []
+    if len(ids) > 0 and ids[0] != '':
+        books = Book.query.filter(Book.id.in_(ids)).order_by(Book.id).all()
 
     return jsonify({
         "success": True,
