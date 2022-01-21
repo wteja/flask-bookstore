@@ -9,12 +9,12 @@ database_uri = "postgresql://{}/{}".format(database_host, database_name)
 db = SQLAlchemy()
 
 
-def setup_db(app, override_database_uri):
+def setup_db(app, override_database_uri=None):
     if override_database_uri:
         app.config["SQLALCHEMY_DATABASE_URI"] = override_database_uri
     else:
         app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
-        
+
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
