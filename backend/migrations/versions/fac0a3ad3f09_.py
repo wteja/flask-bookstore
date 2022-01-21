@@ -42,28 +42,24 @@ def upgrade():
     ## Add seed data
     op.bulk_insert(Book, [
         { 
-            "id": 1,
             "title": "Eloquent JavaScript, Third Edition",
             "isbn": "9781593279509",
             "image": "https://eloquentjavascript.net/img/cover.jpg",
             "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications."
         },
         { 
-            "id": 2,
             "title": "Practical Modern JavaScript",
             "isbn": "9781491943533",
             "image": "https://camo.githubusercontent.com/18565999d9ce20a73f987f933e1f73586d16dd676f492c99fc9f121c376a210a/68747470733a2f2f692e696d6775722e636f6d2f476254634475562e706e67",
             "description": "To get the most out of modern JavaScript, you need learn the latest features of its parent specification, ECMAScript 6 (ES6). This book provides a highly practical look at ES6, without getting lost in the specification or its implementation details."
         },
         { 
-            "id": 3,
             "title": "Understanding ECMAScript 6",
             "isbn": "9781593277574",
             "image": "https://d2sofvawe08yqg.cloudfront.net/understandinges6/s_hero2x?1620418785",
             "description": "ECMAScript 6 represents the biggest update to the core of JavaScript in the history of the language. In Understanding ECMAScript 6, expert developer Nicholas C. Zakas provides a complete guide to the object types, syntax, and other exciting changes that ECMAScript 6 brings to JavaScript."
         },
         { 
-            "id": 4,
             "title": "Speaking JavaScript",
             "isbn": "9781449365035",
             "image": "https://stackabuse.s3.amazonaws.com/media/best-javascript-books-for-all-skill-levels-3-5.jpg",
