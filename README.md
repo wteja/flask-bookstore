@@ -116,6 +116,38 @@ After setup local development like instructor above, you can run this command
 python test_app.py
 ```
 
-## Contributor
+## Sample Usage
+
+There are two sample users with difference roles
+
+### Customer
+
+Customer can only:
+- See the books
+- Add books to cart
+- Remove book from cart
+- Finish order
+
+```
+username: book-customer@yopmail.com
+password: Book@12345
+```
+
+### Store Owner
+
+Store Owner can:
+- See the books
+- Add books to cart
+- Remove book from cart
+- Finish order
+- Add / Edit / Delete Books
+- See & Delete order from customers.
+
+```
+username: book-owner@yopmail.com
+password: Book@12345
+```
+
+## Author
 
 [Weerayut Teja](https://github.com/wteja)
