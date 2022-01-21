@@ -1,24 +1,40 @@
 import { useState } from "react";
 import Book from "../models/book";
+import { useRepository } from "../repository";
 
 function useShoppingCart() {
     const [books, setBooks] = useState<Book[]>([]);
+    const repo = useRepository();
+
+    function getBookIds() {
+        return JSON.parse(localStorage.getItem('cartBookIds') || "[]") as string[];
+    }
+
+    async function getBooks() {
+        const cartBookIds = getBookIds();
+        const books = await repo.getBooksByIds(cartBookIds);
+        return books;
+    }
+
     function addBook(book: Book) {
-        const exists = books.some(it => it.id === book.id);
+        const cartBookIds = getBookIds();
+        const exists = cartBookIds.some(id => id === book.id);
         if (!exists) {
-            setBooks([
-                ...books,
-                book
-            ]);
+            cartBookIds.push(book.id as string);
+            localStorage.setItem('cartBookIds', JSON.stringify(cartBookIds));
+            return true;
+        } else {
+            return false;
         }
     }
 
     function removeBook(book: Book) {
-        const filtered = books.filter(it => it.id !== book.id);
-        setBooks([...filtered]);
+        const cartBookIds = getBookIds();
+        const filtered = cartBookIds.filter(id => id !== book.id);
+        localStorage.setItem('cartBookIds', JSON.stringify(filtered));
     }
 
-    return { books, addBook, removeBook }
+    return { getBooks, addBook, removeBook }
 }
 
 export default useShoppingCart;

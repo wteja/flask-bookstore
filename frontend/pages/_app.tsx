@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 import type { AppProps } from 'next/app'
 import AccessControl from '../src/auth/AccessControl';

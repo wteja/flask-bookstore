@@ -1,5 +1,5 @@
 interface Book {
-    id?: number;
+    id?: string;
     title: string;
     isbn: string;
     image: string;

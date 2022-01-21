@@ -18,6 +18,10 @@ export class Repository {
         const { data } = await axios.get(`${this.baseUrl}/books`);
         return data.data as Book[];
     }
+    async getBooksByIds(ids: string[]) {
+        const { data } = await axios.get(`${this.baseUrl}/selected-books?ids=${ids.join(',')}`);
+        return data.data as Book[];
+    }
     async getBookById(id: string) {
         const result = await axios.get(`${this.baseUrl}/books/${id}`);
         return result.data.data as Book;

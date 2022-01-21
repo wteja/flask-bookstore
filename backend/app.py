@@ -21,6 +21,16 @@ def get_books():
         "data": [book.as_dict() for book in books]
     })
 
+@app.route('/selected-books', methods=['GET'])
+def get_selected_books():
+    ids = request.args['ids'].split(',')
+    books = Book.query.filter(Book.id.in_(ids)).order_by(Book.id).all()
+
+    return jsonify({
+        "success": True,
+        "data": [book.as_dict() for book in books]
+    })
+
 
 @app.route('/books/<int:id>', methods=['GET'])
 def get_book_detail(id):
